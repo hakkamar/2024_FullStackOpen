@@ -1,0 +1,84 @@
+title 0.4 Uusi muistiinpano
+
+kayttaja->selain:
+
+note left of selain
+
+   Käyttäjä luo uuden muistiinpanon ollessaan sivulla
+   https://studies.cs.helsinki.fi/exampleapp/notes
+   Eli kirjoittaa tekstikenttään jotain ja painaa nappia "tallenna".
+
+end note
+
+selain->palvelin: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note right of palvelin
+
+   Palvelin luo uutta muistiinpanoa vastaavan olion
+   ja laittaa sen muistiinpanot sisältävään taulukkoon.
+   Palvelin ei talleta muistiinpanoja tietokantaan, 
+   joten uudet muistiinpanot katoavat aina, 
+   kun palvelin käynnistetään uudelleen.
+
+end note
+
+palvelin->selain: status 302, uudelleenohjauspyyntö (eli redirectaus)
+
+note left of palvelin
+
+   Palvelin kehoittaa selainta tekemään automaattisesti uuden
+   HTTP GET -pyynnön headerin Location kertomaan paikkaan,
+   eli osoitteeseen notes. 
+
+end note
+
+selain->palvelin: GET https://studies.cs.helsinki.fi/exampleapp/notes
+
+note left of palvelin
+
+   Sivun HTML, otsikko ja formi uusien muistiinpanojen tallentamiseen.
+
+end note
+
+palvelin->selain: status 200, sivun HTML-koodi
+
+selain->palvelin: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+
+note left of palvelin
+
+  Sivun ulkoasun muotoiluun liittyvät tiedot.
+
+end note
+
+palvelin->selain: status 200, sivun CSS-tyylitiedosto
+
+selain->palvelin: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+
+note left of palvelin
+
+  Sivun JavaScript mikä lataa muistiinpanot sisältävän
+  JSON-muotoisen datan ja muodostaa datan avulla
+  selaimeen bulletlistan muistiinpanojen sisällöstä.
+
+end note
+
+palvelin->selain: status 200, sivun JavaScript-koodi
+
+selain->palvelin: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+
+note left of palvelin
+
+  Sivun muistiinpanot JSON-muotoisena raakadatana.
+
+end note
+
+palvelin->selain: status 200, sivun JSON-data
+
+note left of selain
+
+  Selain näyttää palvelimen palauttaman HTML:n johon on
+  upotettu lista olemassa olevista muistiinpanoista jotka
+  sisältävät uuden lisätyn musitiinpanon, sekä formin 
+  millä voi tallentaa uusia muistiinpanoja.
+
+end note
